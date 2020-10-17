@@ -105,8 +105,26 @@ public class main {
     }
 
     private static double trapezoidTable(Hashtable<Double, Double> pair, double changeInX, int nVal, double firstX, double lastX) {
-        System.out.println("Come back later!");
-        return 0.0;
+        double returned = 0.0;
+        double currentX = firstX;
+        int i = 1;
+        returned += pair.get(currentX);
+        changeInX += changeInX;
+        i++;
+        while (!(currentX == lastX)) {
+            //if index is 0 or nVal, multiply by 1, else multiply by 2
+            if (i == 0 || i == nVal) {
+                returned += 1 * pair.get(currentX);
+                currentX += changeInX;
+            } else {
+                returned += 2 * pair.get(currentX);
+                currentX += changeInX;
+            }
+            i++;
+        }
+        returned += pair.get(currentX);
+        returned = returned * (changeInX / 2);
+        return returned;
     }
 
     private static double midPointTable(Hashtable<Double, Double> pair, double changeInX, int nVal, double firstX, double lastX) {
