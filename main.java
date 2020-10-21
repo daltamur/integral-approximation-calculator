@@ -128,8 +128,21 @@ public class main {
     }
 
     private static double midPointTable(Hashtable<Double, Double> pair, double changeInX, int nVal, double firstX, double lastX) {
-        System.out.println("Come back later!");
-        return 0.0;
+        double returned = 0.0;
+        //Start from the second X
+        double currentX = firstX + changeInX ;
+        //Instantiate another X for index-1
+        double smolX = firstX;
+        while (currentX <= lastX) {
+            // find the midpoint of each index and add it to the sum
+            returned += (pair.get(smolX)+pair.get(currentX))/2;
+            //increment both current x and smol x
+            currentX += changeInX;
+            smolX += changeInX;
+        }
+        //multiply with delta x and return the value
+        returned = returned * changeInX;
+        return returned;
     }
 
     private static void equationIntegration(Scanner scanner, char method) {
