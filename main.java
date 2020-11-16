@@ -1,7 +1,9 @@
 import java.util.Hashtable;
 import java.util.Scanner;
+import java.util.Stack;
 
 import static java.lang.Math.PI;
+import static java.lang.Math.pow;
 
 public class main {
     public static void main (String[] args){
@@ -378,24 +380,49 @@ public class main {
     }
 
 
-    private static double postFixStackEvaluator(queue postFixQueue){
-        StringBuilder totalString= new StringBuilder();
-        valueNodes popped=postFixQueue.dequeue();
-        while(popped!=null){
-            if(popped.isDouble){
-                double dVal=popped.doubleValue;
-                String dValString=String.valueOf(dVal);
-                totalString.append(dValString);
-            }
-            if(popped.isOperand&&popped.operand!='('){
-                char operand=popped.operand;
-                totalString.append(operand);
-            }
-            popped=postFixQueue.dequeue();
-        }
-        System.out.println(totalString);
+    public static Double postFixStackEvaluator(queue postFixQueue){
+        // create stack
+        Stack<Double> s = new Stack<Double>();
 
-        return 0.0;
+        // postFixQueue to postfix string
+        StringBuilder postfix = new StringBuilder();
+        while(!postFixQueue.isEmpty()){
+            postfix.append(postFixQueue.dequeue().toString());
+        }
+
+
+        // string to character array
+        char[] chars = postfix.toString().toCharArray();
+        int charsLength = chars.length;
+
+        for(int i = 0; i < charsLength; i++){
+            // iterating through char Array
+            char currentChar = chars[i];
+
+            if(isOpperation(currentChar)){
+                switch(currentChar){
+                    case '+' : s.push(s.pop() + s.pop()); break;
+                    case '-' : s.push(-s.pop() + s.pop()); break;
+                    case '*' : s.push(s.pop() * s.pop()); break;
+                    case '/' : s.push(1 / s.pop() * s.pop()); break;
+                    case '^' : s.push(pow(s.pop(),s.pop())); break;
+                }
+            } else if(Character.isDigit(currentChar)){
+                //numbers get pushed to the stack
+                s.push(0.0);
+                while(Character.isDigit(chars[i])){
+                    s.push(10.0 * s.pop() + (chars[i++] - '0'));
+                }
+            }
+        }
+        if(!s.isEmpty()){
+            return s.pop();
+        }else{
+            return 0.0;
+        }
+    }
+    private static boolean isOpperation(char currentChar){
+        return currentChar =='*' || currentChar == '/' || currentChar == '+' || currentChar =='-' || currentChar == '^';
     }
 
 }
