@@ -399,7 +399,7 @@ public class main {
             // iterating through char Array
             char currentChar = chars[i];
 
-            if(isOpperation(currentChar)){
+            if(isOperation(currentChar)){
                 switch(currentChar){
                     case '+' : s.push(s.pop() + s.pop()); break;
                     case '-' : s.push(-s.pop() + s.pop()); break;
@@ -421,7 +421,7 @@ public class main {
             return 0.0;
         }
     }
-    private static boolean isOpperation(char currentChar){
+    private static boolean isOperation(char currentChar){
         return currentChar =='*' || currentChar == '/' || currentChar == '+' || currentChar =='-' || currentChar == '^';
     }
 
